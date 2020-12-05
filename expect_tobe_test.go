@@ -1,11 +1,11 @@
-package expect_test
+package expectate_test
 
 import (
 	"fmt"
 	"testing"
 	"time"
 
-	"github.com/steve-kaufman/go-expect"
+	"github.com/gomagedon/expectate"
 )
 
 type MockTestingT struct {
@@ -146,7 +146,7 @@ func TestToBe(t *testing.T) {
 	for _, test := range toBeTests {
 		t.Run(test.name, func(t *testing.T) {
 			mockTestingT := new(MockTestingT)
-			expect := expect.Expect(mockTestingT)
+			expect := expectate.Expect(mockTestingT)
 
 			expect(test.subject).ToBe(test.object)
 

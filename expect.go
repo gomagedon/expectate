@@ -1,4 +1,4 @@
-package expect
+package expectate
 
 import (
 	"github.com/google/go-cmp/cmp"

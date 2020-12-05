@@ -1,4 +1,4 @@
-module github.com/steve-kaufman/go-expect
+module github.com/gomagedon/expectate
 
 go 1.15
 
