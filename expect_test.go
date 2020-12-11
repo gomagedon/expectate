@@ -1,6 +1,9 @@
 package expectate_test
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type MockTestingT struct {
 	FataledWith string
@@ -8,4 +11,25 @@ type MockTestingT struct {
 
 func (t *MockTestingT) Fatal(args ...interface{}) {
 	t.FataledWith = fmt.Sprintln(args...)
+}
+
+type Person struct {
+	Name     string
+	Age      int
+	Job      string
+	Birthday time.Time
+}
+
+var samplePointerToPerson = &Person{
+	Name:     "John Doe",
+	Age:      30,
+	Job:      "Electrician",
+	Birthday: time.Date(1990, time.January, 1, 0, 0, 0, 0, time.UTC),
+}
+
+type ExpectTest struct {
+	name            string
+	subject         interface{}
+	object          interface{}
+	expectedFailure string
 }

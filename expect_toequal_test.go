@@ -2,19 +2,13 @@ package expectate_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/gomagedon/expectate"
 	"github.com/google/go-cmp/cmp"
 )
 
-type ToEqualTest struct {
-	name            string
-	subject         interface{}
-	object          interface{}
-	expectedFailure string
-}
-
-var toEqualTests = []ToEqualTest{
+var toEqualTests = []ExpectTest{
 	{
 		name:            "2 equals 2",
 		subject:         2,
@@ -42,16 +36,16 @@ var toEqualTests = []ToEqualTest{
 	{
 		name: "pointer to struct is pointer to copy of struct",
 		subject: &Person{
-			Name:     myPointerToPerson.Name,
-			Age:      myPointerToPerson.Age,
-			Job:      myPointerToPerson.Job,
-			Birthday: myPointerToPerson.Birthday,
+			Name:     "John Doe",
+			Age:      30,
+			Job:      "Electrician",
+			Birthday: time.Date(1990, time.January, 1, 0, 0, 0, 0, time.UTC),
 		},
 		object: &Person{
-			Name:     myPointerToPerson.Name,
-			Age:      myPointerToPerson.Age,
-			Job:      myPointerToPerson.Job,
-			Birthday: myPointerToPerson.Birthday,
+			Name:     "John Doe",
+			Age:      30,
+			Job:      "Electrician",
+			Birthday: time.Date(1990, time.January, 1, 0, 0, 0, 0, time.UTC),
 		},
 		expectedFailure: "",
 	},
