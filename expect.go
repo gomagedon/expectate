@@ -1,6 +1,9 @@
 package expectate
 
 import (
+	"fmt"
+	"strconv"
+
 	"github.com/google/go-cmp/cmp"
 )
 
@@ -54,8 +57,9 @@ func (e Expector) ToBeEmptyStr() {
 
 // ToBeZero ...
 func (e Expector) ToBeZero() {
-	num, ok := e.sub.(int)
-	if !ok || num != 0 {
+	numAsStr := fmt.Sprint(e.sub)
+	numAsInt, err := strconv.Atoi(numAsStr)
+	if err != nil || numAsInt != 0 {
 		e.t.Fatal(e.sub, "is not zero")
 	}
 }
