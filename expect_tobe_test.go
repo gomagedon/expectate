@@ -1,20 +1,11 @@
 package expectate_test
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
 	"github.com/gomagedon/expectate"
 )
-
-type MockTestingT struct {
-	FataledWith string
-}
-
-func (t *MockTestingT) Fatal(args ...interface{}) {
-	t.FataledWith = fmt.Sprintln(args...)
-}
 
 type Person struct {
 	Name     string
