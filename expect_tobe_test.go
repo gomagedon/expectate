@@ -7,28 +7,7 @@ import (
 	"github.com/gomagedon/expectate"
 )
 
-type Person struct {
-	Name     string
-	Age      int
-	Job      string
-	Birthday time.Time
-}
-
-var myPointerToPerson = &Person{
-	Name:     "John Doe",
-	Age:      30,
-	Job:      "Electrician",
-	Birthday: time.Date(1990, time.January, 1, 0, 0, 0, 0, time.UTC),
-}
-
-type ToBeTest struct {
-	name            string
-	subject         interface{}
-	object          interface{}
-	expectedFailure string
-}
-
-var toBeTests = []ToBeTest{
+var toBeTests = []ExpectTest{
 	{
 		name:            "2 is 2",
 		subject:         2,
@@ -73,45 +52,45 @@ var toBeTests = []ToBeTest{
 	},
 	{
 		name:            "pointer to struct is itself",
-		subject:         myPointerToPerson,
-		object:          myPointerToPerson,
+		subject:         samplePointerToPerson,
+		object:          samplePointerToPerson,
 		expectedFailure: "",
 	},
 	{
-		name:    "pointer to struct is not copy of struct",
-		subject: myPointerToPerson,
-		object: Person{
-			Name:     myPointerToPerson.Name,
-			Age:      myPointerToPerson.Age,
-			Job:      myPointerToPerson.Job,
-			Birthday: myPointerToPerson.Birthday,
-		},
+		name:            "pointer to struct is not copy of struct",
+		subject:         samplePointerToPerson,
+		object:          *samplePointerToPerson,
 		expectedFailure: "&{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC} is not {John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC}\n",
 	},
 	{
-		name:    "pointer to struct is not pointer to copy of struct",
-		subject: myPointerToPerson,
-		object: &Person{
-			Name:     myPointerToPerson.Name,
-			Age:      myPointerToPerson.Age,
-			Job:      myPointerToPerson.Job,
-			Birthday: myPointerToPerson.Birthday,
+		name: "pointer to struct is not pointer to copy of struct",
+		subject: &Person{
+			Name:     "Philip Fry",
+			Age:      25,
+			Job:      "Delivery Boy",
+			Birthday: time.Date(1980, time.July, 7, 0, 0, 0, 0, time.UTC),
 		},
-		expectedFailure: "&{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC} is not &{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC}\n",
+		object: &Person{
+			Name:     "Philip Fry",
+			Age:      25,
+			Job:      "Delivery Boy",
+			Birthday: time.Date(1980, time.July, 7, 0, 0, 0, 0, time.UTC),
+		},
+		expectedFailure: "&{Philip Fry 25 Delivery Boy 1980-07-07 00:00:00 +0000 UTC} is not &{Philip Fry 25 Delivery Boy 1980-07-07 00:00:00 +0000 UTC}\n",
 	},
 	{
 		name: "struct is copy of struct",
 		subject: Person{
-			Name:     myPointerToPerson.Name,
-			Age:      myPointerToPerson.Age,
-			Job:      myPointerToPerson.Job,
-			Birthday: myPointerToPerson.Birthday,
+			Name:     "Hermes Conrad",
+			Age:      38,
+			Job:      "Beaurocrat",
+			Birthday: time.Date(2967, time.August, 8, 0, 0, 0, 0, time.UTC),
 		},
 		object: Person{
-			Name:     myPointerToPerson.Name,
-			Age:      myPointerToPerson.Age,
-			Job:      myPointerToPerson.Job,
-			Birthday: myPointerToPerson.Birthday,
+			Name:     "Hermes Conrad",
+			Age:      38,
+			Job:      "Beaurocrat",
+			Birthday: time.Date(2967, time.August, 8, 0, 0, 0, 0, time.UTC),
 		},
 		expectedFailure: "",
 	},
