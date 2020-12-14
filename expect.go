@@ -66,7 +66,14 @@ func (e Expector) ToBeZero() {
 
 // ToBeNil ...
 func (e Expector) ToBeNil() {
-	if e.sub != nil {
+	switch e.sub.(type) {
+	case string:
 		e.t.Fatal(e.sub, "is not nil")
+	case fmt.Stringer:
+		e.t.Fatal(e.sub, "is not nil")
+	default:
+		if fmt.Sprint(e.sub) != "<nil>" {
+			e.t.Fatal(e.sub, "is not nil")
+		}
 	}
 }
