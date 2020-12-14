@@ -6,6 +6,14 @@ import (
 	"github.com/gomagedon/expectate"
 )
 
+type zeroStringer struct {
+	someField string
+}
+
+func (zeroStringer) String() string {
+	return "0"
+}
+
 var zeroTests = []ExpectTest{
 	{
 		name:            "int zero is zero",
@@ -156,6 +164,16 @@ var zeroTests = []ExpectTest{
 		name:            "float64 0.1 is not zero",
 		subject:         float64(0.1),
 		expectedFailure: "0.1 is not zero\n",
+	},
+	{
+		name:            "string '0' is not zero",
+		subject:         "0",
+		expectedFailure: "0 is not zero\n",
+	},
+	{
+		name:            "zeroStringer is not zero",
+		subject:         zeroStringer{},
+		expectedFailure: "0 is not zero\n",
 	},
 }
 
