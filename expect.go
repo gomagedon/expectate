@@ -57,10 +57,17 @@ func (e Expector) ToBeEmptyStr() {
 
 // ToBeZero ...
 func (e Expector) ToBeZero() {
-	numAsStr := fmt.Sprint(e.sub)
-	numAsInt, err := strconv.Atoi(numAsStr)
-	if err != nil || numAsInt != 0 {
+	switch e.sub.(type) {
+	case string:
 		e.t.Fatal(e.sub, "is not zero")
+	case fmt.Stringer:
+		e.t.Fatal(e.sub, "is not zero")
+	default:
+		numAsStr := fmt.Sprint(e.sub)
+		numAsInt, err := strconv.Atoi(numAsStr)
+		if err != nil || numAsInt != 0 {
+			e.t.Fatal(e.sub, "is not zero")
+		}
 	}
 }
 
