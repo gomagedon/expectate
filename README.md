@@ -9,7 +9,7 @@ This testing library's intended purpose is to provide 'expect-like' syntax to go
 # Principles:
 
 ## 1. Idiomatic
-  It does nothing more than enhance the readability of the already awesome built-in Go testing toolkit. We're still using testing.T, okay?
+  It does nothing more than enhance the readability of the already awesome built-in Go testing toolkit!
   
 ## 2. Super Readable
   Taking heavy inspiration from JavaScript's jest library, this should make it perfectly clear what your assertions are.
