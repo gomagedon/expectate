@@ -4,22 +4,9 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/gomagedon/expectate/check"
 	"github.com/google/go-cmp/cmp"
 )
-
-// Fataler ...
-type Fataler interface {
-	Fatal(args ...interface{})
-}
-
-// Expector ...
-type Expector struct {
-	t   Fataler
-	sub interface{}
-}
-
-// ExpectorGenerator ...
-type ExpectorGenerator func(subject interface{}) *Expector
 
 // Expect ...
 func Expect(t Fataler) ExpectorGenerator {
@@ -31,9 +18,23 @@ func Expect(t Fataler) ExpectorGenerator {
 	}
 }
 
+// Fataler ...
+type Fataler interface {
+	Fatal(args ...interface{})
+}
+
+// ExpectorGenerator ...
+type ExpectorGenerator func(subject interface{}) *Expector
+
+// Expector ...
+type Expector struct {
+	t   Fataler
+	sub interface{}
+}
+
 // ToBe ...
 func (e Expector) ToBe(expected interface{}) {
-	if e.sub != expected {
+	if !check.Is(e.sub, expected) {
 		e.t.Fatal(e.sub, "is not", expected)
 	}
 }
@@ -82,5 +83,12 @@ func (e Expector) ToBeNil() {
 		if fmt.Sprint(e.sub) != "<nil>" {
 			e.t.Fatal(e.sub, "is not nil")
 		}
+	}
+}
+
+// NotToBe ...
+func (e Expector) NotToBe(expected interface{}) {
+	if check.Is(e.sub, expected) {
+		e.t.Fatal(e.sub, "is", expected)
 	}
 }
