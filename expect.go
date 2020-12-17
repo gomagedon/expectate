@@ -92,3 +92,10 @@ func (e Expector) NotToBe(expected interface{}) {
 		e.t.Fatal(e.sub, "is", expected)
 	}
 }
+
+// NotToEqual ...
+func (e Expector) NotToEqual(expected interface{}) {
+	if cmp.Equal(e.sub, expected) {
+		e.t.Fatal(e.sub, "equals", expected)
+	}
+}
