@@ -1,9 +1,6 @@
 package expectate
 
 import (
-	"fmt"
-	"strconv"
-
 	"github.com/google/go-cmp/cmp"
 )
 
@@ -47,44 +44,6 @@ func (e Expector) ToEqual(expected interface{}) {
 	}
 }
 
-// ToBeEmptyStr ...
-func (e Expector) ToBeEmptyStr() {
-	str, ok := e.sub.(string)
-	if !ok || str != "" {
-		e.t.Fatal(e.sub, "is not an empty string")
-	}
-}
-
-// ToBeZero ...
-func (e Expector) ToBeZero() {
-	switch e.sub.(type) {
-	case string:
-		e.t.Fatal(e.sub, "is not zero")
-	case fmt.Stringer:
-		e.t.Fatal(e.sub, "is not zero")
-	default:
-		numAsStr := fmt.Sprint(e.sub)
-		numAsInt, err := strconv.Atoi(numAsStr)
-		if err != nil || numAsInt != 0 {
-			e.t.Fatal(e.sub, "is not zero")
-		}
-	}
-}
-
-// ToBeNil ...
-func (e Expector) ToBeNil() {
-	switch e.sub.(type) {
-	case string:
-		e.t.Fatal(e.sub, "is not nil")
-	case fmt.Stringer:
-		e.t.Fatal(e.sub, "is not nil")
-	default:
-		if fmt.Sprint(e.sub) != "<nil>" {
-			e.t.Fatal(e.sub, "is not nil")
-		}
-	}
-}
-
 // NotToBe ...
 func (e Expector) NotToBe(expected interface{}) {
 	if e.sub == expected {
@@ -96,13 +55,5 @@ func (e Expector) NotToBe(expected interface{}) {
 func (e Expector) NotToEqual(expected interface{}) {
 	if cmp.Equal(e.sub, expected) {
 		e.t.Fatal(e.sub, "equals", expected)
-	}
-}
-
-// NotToBeEmptyStr ...
-func (e Expector) NotToBeEmptyStr() {
-	str, ok := e.sub.(string)
-	if ok && str == "" {
-		e.t.Fatal("this is an empty string")
 	}
 }
