@@ -99,3 +99,11 @@ func (e Expector) NotToEqual(expected interface{}) {
 		e.t.Fatal(e.sub, "equals", expected)
 	}
 }
+
+// NotToBeEmptyStr ...
+func (e Expector) NotToBeEmptyStr() {
+	str, ok := e.sub.(string)
+	if ok && str == "" {
+		e.t.Fatal("this is an empty string")
+	}
+}
