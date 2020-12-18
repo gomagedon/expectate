@@ -4,20 +4,6 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-// Fataler ...
-type Fataler interface {
-	Fatal(args ...interface{})
-}
-
-// Expector ...
-type Expector struct {
-	t   Fataler
-	sub interface{}
-}
-
-// ExpectorGenerator ...
-type ExpectorGenerator func(subject interface{}) *Expector
-
 // Expect ...
 func Expect(t Fataler) ExpectorGenerator {
 	expector := new(Expector)
@@ -26,6 +12,20 @@ func Expect(t Fataler) ExpectorGenerator {
 		expector.sub = subject
 		return expector
 	}
+}
+
+// Fataler ...
+type Fataler interface {
+	Fatal(args ...interface{})
+}
+
+// ExpectorGenerator ...
+type ExpectorGenerator func(subject interface{}) *Expector
+
+// Expector ...
+type Expector struct {
+	t   Fataler
+	sub interface{}
 }
 
 // ToBe ...
@@ -41,5 +41,19 @@ func (e Expector) ToEqual(expected interface{}) {
 
 	if diff != "" {
 		e.t.Fatal(diff)
+	}
+}
+
+// NotToBe ...
+func (e Expector) NotToBe(expected interface{}) {
+	if e.sub == expected {
+		e.t.Fatal(e.sub, "is", expected)
+	}
+}
+
+// NotToEqual ...
+func (e Expector) NotToEqual(expected interface{}) {
+	if cmp.Equal(e.sub, expected) {
+		e.t.Fatal(e.sub, "equals", expected)
 	}
 }
