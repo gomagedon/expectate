@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/gomagedon/expectate/check"
 	"github.com/google/go-cmp/cmp"
 )
 
@@ -34,7 +33,7 @@ type Expector struct {
 
 // ToBe ...
 func (e Expector) ToBe(expected interface{}) {
-	if !check.Is(e.sub, expected) {
+	if e.sub != expected {
 		e.t.Fatal(e.sub, "is not", expected)
 	}
 }
@@ -88,7 +87,7 @@ func (e Expector) ToBeNil() {
 
 // NotToBe ...
 func (e Expector) NotToBe(expected interface{}) {
-	if check.Is(e.sub, expected) {
+	if e.sub == expected {
 		e.t.Fatal(e.sub, "is", expected)
 	}
 }
