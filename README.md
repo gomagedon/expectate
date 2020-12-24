@@ -133,3 +133,65 @@ Result:
 --- FAIL: TestFooIsBar
     expect.go:34: foo is not bar
 ```
+
+---
+
+<h2 id="toequal"><code>expect().ToEqual()</code></h2>
+
+The `expect().ToEqual()` method exists on the `Expector` type (which is what `expect()` returns). It takes any value and performs a *deep* equality check using [go-cmp](https://github.com/google/go-cmp) with that value and the initial value passed to `expect()`. If the two values are equal, the test passes. If not, it calls `t.Fatal()` with a go-cmp diff.
+
+#### Here's an example of a passing test:
+```golang
+func TestPost1IsPost2(t *testing.T) {
+  expect := expectate.Expect(t)
+
+  post1 := Post{
+    Title:   "Post",
+    Content: "Content of Post",
+    Likes:   2,
+  }
+  post2 := Post{
+    Title:   "Post",
+    Content: "Content of Post",
+    Likes:   2,
+  }
+
+  expect(post1).ToEqual(post2)
+}
+```
+Result:
+```
+--- PASS (ok)
+```
+
+#### Here's an example of a failing test:
+```golang
+func TestPost1IsPost2(t *testing.T) {
+  expect := expectate.Expect(t)
+
+  post1 := Post{
+    Title:   "Post 1",
+    Content: "Content of Post 1",
+    Likes:   2,
+  }
+  post2 := Post{
+    Title:   "Post 2",
+    Content: "Content of Post 2",
+    Likes:   1,
+  }
+
+  expect(post1).ToEqual(post2)
+}
+```
+Output:
+```
+--- FAIL: TestPost1IsPost2
+    expect.go:43:   main.Post{
+        -       Title:   "Post 2",
+        +       Title:   "Post 1",
+        -       Content: "Content of Post 2",
+        +       Content: "Content of Post 1",
+        -       Likes:   1,
+        +       Likes:   2,
+          }
+```
