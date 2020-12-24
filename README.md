@@ -6,10 +6,10 @@ This testing library's intended purpose is to provide 'expect-like' syntax to go
 
 ---
 
-# Principles:
+# Principles
 
 ## 1. Idiomatic
-  It does nothing more than enhance the readability of the already awesome built-in Go testing toolkit!
+  Well, sort of. More idiomatic than Ginkgo for sure! But I guess you could argue that you're *supposed* to write a bunch of if statements in your tests, as that is the Go way. I just think the expect syntax is cool, and if you don't like it you can just *go* away!
   
 ## 2. Super Readable
   Taking heavy inspiration from JavaScript's jest library, this should make it perfectly clear what your assertions are.
@@ -20,7 +20,7 @@ This testing library's intended purpose is to provide 'expect-like' syntax to go
   
 ---
   
-# Examples:
+# Examples
 
 The best thing any assertion library is for is testing the equality of two structs, right?<br>
 Well, you'll be happy to know that, unlike testify, this uses go-cmp instead of reflect.DeepEquals!<br>
@@ -67,3 +67,33 @@ Output:
 Note that when using go-cmp structs must have only exported fields! Unexported fields will result in a panic because it can't compare them!
 
 But that's okay! You should really separate your pure data structures from your objects so that you never have to compare anything with unexported fields!
+
+# Documentation
+
+Expectate only has 4 methods!
+
+- ### [`Expect()`](#expect)
+- ### [`ToBe()`](#tobe)
+- ### [`ToEqual()`](#toequal)
+- ### [`NotToBe()`](#nottobe)
+- ### [`NotToEqual()`](#nottoequal)
+
+<h2 id="expect"><code>Expect()</code></h2>
+
+The `Expect()` method is at the top level of the `expectate` package. It takes `*testing.T` as a parameter and returns an Expector type.
+
+Here's an example:
+```golang
+func TestSomething(t *testing.T) {
+  expect := expectate.Expect(t)
+  expect(something).ToBe(somethingElse)
+  ...
+}
+```
+Alternatively:
+```golang
+func TestSomething(t *testing.T) {
+  expectate.Expect(t)(something).ToBe(somethingElse)
+  ...
+}
+```
