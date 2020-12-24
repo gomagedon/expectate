@@ -142,7 +142,7 @@ The `expect().ToEqual()` method exists on the `Expector` type (which is what `ex
 
 #### Here's an example of a passing test:
 ```golang
-func TestPost1IsPost2(t *testing.T) {
+func TestPost1EqualsPost2(t *testing.T) {
   expect := expectate.Expect(t)
 
   post1 := Post{
@@ -166,7 +166,7 @@ Result:
 
 #### Here's an example of a failing test:
 ```golang
-func TestPost1IsPost2(t *testing.T) {
+func TestPost1EqualsPost2(t *testing.T) {
   expect := expectate.Expect(t)
 
   post1 := Post{
@@ -185,7 +185,7 @@ func TestPost1IsPost2(t *testing.T) {
 ```
 Output:
 ```
---- FAIL: TestPost1IsPost2
+--- FAIL: TestPost1EqualsPost2
     expect.go:43:   main.Post{
         -       Title:   "Post 2",
         +       Title:   "Post 1",
@@ -194,4 +194,92 @@ Output:
         -       Likes:   1,
         +       Likes:   2,
           }
+```
+
+---
+
+<h2 id="nottobe"><code>expect().NotToBe()</code></h2>
+
+The `expect().NotToBe()` method exists on the `Expector` type (which is what `expect()` returns). It has the opposite behavior of `expect().ToBe()` It takes any value and performs a simple inequality check with that value and the initial value passed to `expect()`. If the two values are not equal, the test passes. If they are, it calls `t.Fatal()` with a generic error message.
+
+#### Here's an example of a passing test:
+```golang
+func TestFooIsNotBar(t *testing.T) {
+  expect := expectate.Expect(t)
+  
+  expect("foo").NotToBe("bar")
+}
+```
+Result:
+```
+--- PASS (ok)
+```
+
+#### Here's an example of a failing test:
+```golang
+func TestFooIsNotFoo(t *testing.T) {
+  expect := expectate.Expect(t)
+  
+  expect("foo").NotToBe("foo")
+}
+```
+Result:
+```
+--- FAIL: TestFooIsBar
+    expect.go:34: foo is foo
+```
+
+---
+
+<h2 id="nottoequal"><code>expect().NotToEqual()</code></h2>
+
+The `expect().NotToEqual()` method exists on the `Expector` type (which is what `expect()` returns). It has the opposite behavior as `expect().ToEqual()`. It takes any value and performs a *deep* inequality check using [go-cmp](https://github.com/google/go-cmp) with that value and the initial value passed to `expect()`. If the two values are not equal, the test passes. If they are, it calls `t.Fatal()` with a generic error message.
+
+#### Here's an example of a passing test:
+```golang
+func TestPost1_DoesNotEqual_Post2(t *testing.T) {
+  expect := expectate.Expect(t)
+
+  post1 := Post{
+    Title:   "Post 1",
+    Content: "Content of Post 1",
+    Likes:   2,
+  }
+  post2 := Post{
+    Title:   "Post 2",
+    Content: "Content of Post 2",
+    Likes:   1,
+  }
+
+  expect(post1).NotToEqual(post2)
+}
+```
+Result:
+```
+--- PASS (ok)
+```
+
+#### Here's an example of a failing test:
+```golang
+func TestPost1_DoesNotEqual_Post2(t *testing.T) {
+  expect := expectate.Expect(t)
+
+  post1 := Post{
+    Title:   "Post",
+    Content: "Content of Post",
+    Likes:   2,
+  }
+  post2 := Post{
+    Title:   "Post",
+    Content: "Content of Post",
+    Likes:   2,
+  }
+
+  expect(post1).NotToEqual(post2)
+}
+```
+Output:
+```
+--- FAIL: TestPost1_DoesNotEqual_Post2
+    expect.go:57: {Post 1 Content of Post 1 2} equals {Post 1 Content of Post 1 2}
 ```
