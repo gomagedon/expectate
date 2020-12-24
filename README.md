@@ -20,14 +20,41 @@ This testing library's intended purpose is to provide 'expect-like' syntax to go
   
 ---
   
-# Examples
+# Quick Start
 
+### First, install Expectate:
+
+```
+go get github.com/gomagedon/expectate
+```
+
+### Then start using it in your regular built-in go testing files!
+
+```golang
+package project_test
+
+import (
+  "testing"
+  
+  "github.com/gomagedon/expectate"
+)
+
+func TestProject(t *testing.T) {
+  expect := expectate.Expect(t)
+  
+  p := project.NewProject()
+  
+  expect(p.HelloWorld()).ToBe("Hello world!\n")
+}
+```
+
+### Easy Use Case
 One of the main reasons to use an assertion library is testing the equality of two structs, right?<br>
 Well, you'll be happy to know that, unlike testify, this uses go-cmp instead of reflect.DeepEquals!<br>
 ...Not impressed?<br>
 Well, take go ahead and google go-cmp to figure out why. Also note that the use of reflect.DeepEquals is an outstanding issue in testify...
 
-## Equality of two structs
+## Test Equality of Two Structs
 
 ```golang
 
