@@ -56,7 +56,7 @@ func TestPeopleAreTheSame(t *testing.T) {
 ```
 Output:
 ```
---- FAIL: TestPeopleAreTheSame (0.00s)
+--- FAIL: TestPeopleAreTheSame
     expect.go:46:   expectate_test.Person{
         -       Name:       "John Smith",
         +       Name:       "John Doe",
@@ -72,28 +72,64 @@ But that's okay! You should really separate your pure data structures from your 
 
 Expectate only has 4 methods!
 
-- ### [`Expect()`](#expect)
-- ### [`ToBe()`](#tobe)
-- ### [`ToEqual()`](#toequal)
-- ### [`NotToBe()`](#nottobe)
-- ### [`NotToEqual()`](#nottoequal)
+- ### [`Expect()`](#expect) <br>
+- ### [`expect().ToBe()`](#tobe)
+- ### [`expect().ToEqual()`](#toequal)
+- ### [`expect().NotToBe()`](#nottobe)
+- ### [`expect().NotToEqual()`](#nottoequal)
+
+---
 
 <h2 id="expect"><code>Expect()</code></h2>
 
-The `Expect()` method is at the top level of the `expectate` package. It takes `*testing.T` as a parameter and returns an Expector type.
+The `Expect()` method is at the top level of the `expectate` package. It takes `*testing.T` as a parameter and returns an `ExpectorGenerator` type.
 
 Here's an example:
 ```golang
 func TestSomething(t *testing.T) {
   expect := expectate.Expect(t)
+  
   expect(something).ToBe(somethingElse)
-  ...
+  // ...some other expectations
 }
 ```
 Alternatively:
 ```golang
 func TestSomething(t *testing.T) {
   expectate.Expect(t)(something).ToBe(somethingElse)
-  ...
+  // ...some other expectations
 }
+```
+
+---
+
+<h2 id="tobe"><code>expect().ToBe()</code></h2>
+
+The `expect().ToBe()` method exists on the `Expector` type (which is what `expect()` returns). It takes any value and performs a simple equality check with that value and the initial value passed to `expect()`. If the two values are equal, the test passes. If not, it calls `t.Fatal()` with a generic error message.
+
+#### Here's an example of a passing test:
+```golang
+func TestFooIsFoo(t *testing.T) {
+  expect := expectate.Expect(t)
+  
+  expect("foo").ToBe("foo")
+}
+```
+Result:
+```
+--- PASS (ok)
+```
+
+#### Here's an example of a failing test:
+```golang
+func TestFooIsBar(t *testing.T) {
+  expect := expectate.Expect(t)
+  
+  expect("foo").ToBe("bar")
+}
+```
+Result:
+```
+--- FAIL: TestFooIsBar
+    expect.go:34: foo is not bar
 ```
