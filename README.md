@@ -2,7 +2,11 @@
 
 # Expectate: A lightweight testing utility for golang
 
-This testing library's intended purpose is to provide 'expect-like' syntax to golang without using the heavy-handed ginkgo toolset.
+This testing library's intended purpose is to provide 'expect' syntax assertions to golang without using the heavy-handed ginkgo toolset.
+
+- ### [Principles](#principles)
+- ### [Quick Start](#quick-start)
+- ### [Documentation](#documentation)
 
 ---
 
