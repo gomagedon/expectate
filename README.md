@@ -40,15 +40,14 @@ package project_test
 import (
   "testing"
   
+  "github.com/<username>/project"
   "github.com/gomagedon/expectate"
 )
 
 func TestProject(t *testing.T) {
   expect := expectate.Expect(t)
   
-  p := project.NewProject()
-  
-  expect(p.HelloWorld()).ToBe("Hello world!\n")
+  expect(project.HelloWorld()).ToBe("Hello world!\n")
 }
 ```
 
