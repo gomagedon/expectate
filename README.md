@@ -94,9 +94,9 @@ Output:
                 Occupation: "Electrician",
           }
 ```
-Note that when using go-cmp structs must have only exported fields! Unexported fields will result in a panic because it can't compare them!
+Note that when using go-cmp structs must have only exported fields. Unexported fields will result in a panic because it can't compare them.
 
-But that's okay! You should really separate your pure data structures from your objects so that you never have to compare anything with unexported fields!
+But that's okay! You should really separate your pure data structures from your objects so that you never have to compare anything with unexported field.
 
 # Documentation
 
@@ -112,7 +112,7 @@ Expectate only has 4 methods!
 
 <h2 id="expect"><code>Expect()</code></h2>
 
-The `Expect()` method is at the top level of the `expectate` package. It takes `*testing.T` as a parameter and returns an `ExpectorGenerator` type.
+The `Expect()` method is at the top level of the `expectate` package. It takes `*testing.T` as a parameter and returns an `ExpectorFunc` type.
 
 Here's an example:
 ```golang
