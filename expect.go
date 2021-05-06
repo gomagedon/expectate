@@ -1,59 +1,67 @@
 package expectate
 
 import (
+	"fmt"
+
 	"github.com/google/go-cmp/cmp"
 )
 
-// Expect ...
-func Expect(t Fataler) ExpectorGenerator {
+// Fataler is satisfied by *testing.T but could be something else if needed
+type Fataler interface {
+	Fatalf(format string, args ...interface{})
+}
+
+// Expect constructs an ExpectorFunc object
+func Expect(t Fataler) ExpectorFunc {
 	expector := new(Expector)
 	expector.t = t
 	return func(subject interface{}) *Expector {
-		expector.sub = subject
+		expector.subject = subject
 		return expector
 	}
 }
 
-// Fataler ...
-type Fataler interface {
-	Fatal(args ...interface{})
-}
+type ExpectorFunc func(subject interface{}) *Expector
 
-// ExpectorGenerator ...
-type ExpectorGenerator func(subject interface{}) *Expector
-
-// Expector ...
 type Expector struct {
-	t   Fataler
-	sub interface{}
+	t       Fataler
+	subject interface{}
 }
 
-// ToBe ...
+// ToBe checks simple equality, i.e. (x == y)
 func (e Expector) ToBe(expected interface{}) {
-	if e.sub != expected {
-		e.t.Fatal(e.sub, "is not", expected)
+	if e.subject != expected {
+		e.t.Fatalf("%s is not %s", format(e.subject), format(expected))
 	}
 }
 
-// ToEqual ...
+// ToEqual checks strict equality, i.e. (cmp.Diff(x, y) == "")
 func (e Expector) ToEqual(expected interface{}) {
-	diff := cmp.Diff(expected, e.sub)
+	diff := cmp.Diff(expected, e.subject)
 
 	if diff != "" {
-		e.t.Fatal(diff)
+		e.t.Fatalf(diff)
 	}
 }
 
-// NotToBe ...
+// NotToBe checks simple inequality, i.e. (x != y)
 func (e Expector) NotToBe(expected interface{}) {
-	if e.sub == expected {
-		e.t.Fatal(e.sub, "is", expected)
+	if e.subject == expected {
+		e.t.Fatalf("%s is %s", format(e.subject), format(expected))
 	}
 }
 
-// NotToEqual ...
+// NotToEqual checks strict inequality, i.e. (cmp.Diff(x, y) != "")
 func (e Expector) NotToEqual(expected interface{}) {
-	if cmp.Equal(e.sub, expected) {
-		e.t.Fatal(e.sub, "equals", expected)
+	if cmp.Equal(e.subject, expected) {
+		e.t.Fatalf("%s equals %s", format(e.subject), format(expected))
 	}
+}
+
+func format(v interface{}) string {
+	str, ok := v.(string)
+	if ok {
+		return fmt.Sprintf("'%s'", str)
+	}
+	return fmt.Sprint(v)
 }

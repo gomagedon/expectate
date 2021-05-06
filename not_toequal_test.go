@@ -12,7 +12,7 @@ var notToEqualTests = []ExpectTest{
 		name:            "2 equals 2",
 		subject:         2,
 		object:          2,
-		expectedFailure: "2 equals 2\n",
+		expectedFailure: "2 equals 2",
 	},
 	{
 		name:            "2 does not equal 3",
@@ -24,7 +24,7 @@ var notToEqualTests = []ExpectTest{
 		name:            "'foo' equals 'foo'",
 		subject:         "foo",
 		object:          "foo",
-		expectedFailure: "foo equals foo\n",
+		expectedFailure: "'foo' equals 'foo'",
 	},
 	{
 		name:            "'foo' does not equal 'bar'",
@@ -46,7 +46,7 @@ var notToEqualTests = []ExpectTest{
 			Job:      "Electrician",
 			Birthday: time.Date(1990, time.January, 1, 0, 0, 0, 0, time.UTC),
 		},
-		expectedFailure: "&{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC} equals &{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC}\n",
+		expectedFailure: "&{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC} equals &{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC}",
 	},
 }
 

@@ -19,7 +19,7 @@ var toEqualTests = []ExpectTest{
 		name:            "2 does not equal 3",
 		subject:         2,
 		object:          3,
-		expectedFailure: cmp.Diff(3, 2) + "\n",
+		expectedFailure: cmp.Diff(3, 2),
 	},
 	{
 		name:            "'foo' equals 'foo'",
@@ -31,7 +31,7 @@ var toEqualTests = []ExpectTest{
 		name:            "'foo' does not equal 'bar'",
 		subject:         "foo",
 		object:          "bar",
-		expectedFailure: cmp.Diff("bar", "foo") + "\n",
+		expectedFailure: cmp.Diff("bar", "foo"),
 	},
 	{
 		name: "pointer to struct is pointer to copy of struct",

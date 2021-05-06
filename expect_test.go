@@ -9,8 +9,8 @@ type MockTestingT struct {
 	FataledWith string
 }
 
-func (t *MockTestingT) Fatal(args ...interface{}) {
-	t.FataledWith = fmt.Sprintln(args...)
+func (t *MockTestingT) Fatalf(format string, args ...interface{}) {
+	t.FataledWith = fmt.Sprintf(format, args...)
 }
 
 type Person struct {

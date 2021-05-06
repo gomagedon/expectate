@@ -12,7 +12,7 @@ var notToBeTests = []ExpectTest{
 		name:            "2 is 2",
 		subject:         2,
 		object:          2,
-		expectedFailure: "2 is 2\n",
+		expectedFailure: "2 is 2",
 	},
 	{
 		name:            "2 is not 3",
@@ -24,7 +24,7 @@ var notToBeTests = []ExpectTest{
 		name:            "'foo' is 'foo'",
 		subject:         "foo",
 		object:          "foo",
-		expectedFailure: "foo is foo\n",
+		expectedFailure: "'foo' is 'foo'",
 	},
 	{
 		name:            "'foo' is not 'bar'",
@@ -36,7 +36,7 @@ var notToBeTests = []ExpectTest{
 		name:            "0 is 0",
 		subject:         0,
 		object:          0,
-		expectedFailure: "0 is 0\n",
+		expectedFailure: "0 is 0",
 	},
 	{
 		name:            "0 is not ''",
@@ -54,7 +54,7 @@ var notToBeTests = []ExpectTest{
 		name:            "pointer to struct is itself",
 		subject:         samplePointerToPerson,
 		object:          samplePointerToPerson,
-		expectedFailure: "&{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC} is &{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC}\n",
+		expectedFailure: "&{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC} is &{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC}",
 	},
 	{
 		name:            "pointer to struct is not copy of struct",
@@ -92,7 +92,7 @@ var notToBeTests = []ExpectTest{
 			Job:      "Beaurocrat",
 			Birthday: time.Date(2967, time.August, 8, 0, 0, 0, 0, time.UTC),
 		},
-		expectedFailure: "{Hermes Conrad 38 Beaurocrat 2967-08-08 00:00:00 +0000 UTC} is {Hermes Conrad 38 Beaurocrat 2967-08-08 00:00:00 +0000 UTC}\n",
+		expectedFailure: "{Hermes Conrad 38 Beaurocrat 2967-08-08 00:00:00 +0000 UTC} is {Hermes Conrad 38 Beaurocrat 2967-08-08 00:00:00 +0000 UTC}",
 	},
 	{
 		name: "struct is not struct with different values",

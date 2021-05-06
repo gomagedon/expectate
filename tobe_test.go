@@ -18,7 +18,7 @@ var toBeTests = []ExpectTest{
 		name:            "2 is not 3",
 		subject:         2,
 		object:          3,
-		expectedFailure: "2 is not 3\n",
+		expectedFailure: "2 is not 3",
 	},
 	{
 		name:            "'foo' is 'foo'",
@@ -30,7 +30,7 @@ var toBeTests = []ExpectTest{
 		name:            "'foo' is not 'bar'",
 		subject:         "foo",
 		object:          "bar",
-		expectedFailure: "foo is not bar\n",
+		expectedFailure: "'foo' is not 'bar'",
 	},
 	{
 		name:            "0 is 0",
@@ -42,13 +42,13 @@ var toBeTests = []ExpectTest{
 		name:            "0 is not ''",
 		subject:         0,
 		object:          "",
-		expectedFailure: "0 is not \n",
+		expectedFailure: "0 is not ''",
 	},
 	{
 		name:            "0 is not nil",
 		subject:         0,
 		object:          nil,
-		expectedFailure: "0 is not <nil>\n",
+		expectedFailure: "0 is not <nil>",
 	},
 	{
 		name:            "pointer to struct is itself",
@@ -60,7 +60,7 @@ var toBeTests = []ExpectTest{
 		name:            "pointer to struct is not copy of struct",
 		subject:         samplePointerToPerson,
 		object:          *samplePointerToPerson,
-		expectedFailure: "&{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC} is not {John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC}\n",
+		expectedFailure: "&{John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC} is not {John Doe 30 Electrician 1990-01-01 00:00:00 +0000 UTC}",
 	},
 	{
 		name: "pointer to struct is not pointer to copy of struct",
@@ -76,7 +76,7 @@ var toBeTests = []ExpectTest{
 			Job:      "Delivery Boy",
 			Birthday: time.Date(1980, time.July, 7, 0, 0, 0, 0, time.UTC),
 		},
-		expectedFailure: "&{Philip Fry 25 Delivery Boy 1980-07-07 00:00:00 +0000 UTC} is not &{Philip Fry 25 Delivery Boy 1980-07-07 00:00:00 +0000 UTC}\n",
+		expectedFailure: "&{Philip Fry 25 Delivery Boy 1980-07-07 00:00:00 +0000 UTC} is not &{Philip Fry 25 Delivery Boy 1980-07-07 00:00:00 +0000 UTC}",
 	},
 	{
 		name: "struct is copy of struct",
@@ -108,7 +108,7 @@ var toBeTests = []ExpectTest{
 			Job:      "Electrician",
 			Birthday: time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC),
 		},
-		expectedFailure: "{John Doe 30 Electrician 2000-01-01 00:00:00 +0000 UTC} is not {John Smith 30 Electrician 2000-01-01 00:00:00 +0000 UTC}\n",
+		expectedFailure: "{John Doe 30 Electrician 2000-01-01 00:00:00 +0000 UTC} is not {John Smith 30 Electrician 2000-01-01 00:00:00 +0000 UTC}",
 	},
 }
 
@@ -121,8 +121,7 @@ func TestToBe(t *testing.T) {
 			expect(test.subject).ToBe(test.object)
 
 			if mockTestingT.FataledWith != test.expectedFailure {
-				t.Fatal("Expected:", test.expectedFailure,
-					"\nGot:", mockTestingT.FataledWith)
+				t.Fatalf("Expected '%s'\nGot: '%s'", test.expectedFailure, mockTestingT.FataledWith)
 			}
 		})
 	}
