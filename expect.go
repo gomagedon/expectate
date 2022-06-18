@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
 // Fataler is satisfied by *testing.T but could be something else if needed
@@ -37,7 +38,7 @@ func (e Expector) ToBe(expected interface{}) {
 
 // ToEqual checks strict equality, i.e. (cmp.Diff(x, y) == "")
 func (e Expector) ToEqual(expected interface{}) {
-	diff := cmp.Diff(expected, e.subject)
+	diff := cmp.Diff(expected, e.subject, cmpopts.IgnoreUnexported())
 
 	if diff != "" {
 		e.t.Fatalf(diff)
@@ -51,9 +52,9 @@ func (e Expector) NotToBe(expected interface{}) {
 	}
 }
 
-// NotToEqual checks strict inequality, i.e. (cmp.Diff(x, y) != "")
+// NotToEqual checks strict inequality, i.e. (!cmp.Equal(x, y))
 func (e Expector) NotToEqual(expected interface{}) {
-	if cmp.Equal(e.subject, expected) {
+	if cmp.Equal(e.subject, expected, cmpopts.IgnoreUnexported()) {
 		e.t.Fatalf("%s equals %s", format(e.subject), format(expected))
 	}
 }
