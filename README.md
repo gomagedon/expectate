@@ -1,9 +1,5 @@
 ---
 # Expectate: A lightweight testing utility for golang
-
--  ### [Principles](#principles)
--  ### [Quick Start](#quick-start)
--  ### [Documentation](#documentation)
 ---
 
 # Quick Start
@@ -71,7 +67,7 @@ Output:
           }
 ```
 
-Note that expectate uses `cmpopts.IgnoreUnexported()` by default. Custom cmp options are not supported for the `ToEqual()` method, but you can always call the cmp library directly.
+Note that expectate uses `google/go-cmp` for testing strict equality. Custom cmp options are not supported for the `ToEqual()` method, but you can always call the cmp library directly.
 
 # Simple API
 
