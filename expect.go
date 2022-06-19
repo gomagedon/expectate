@@ -38,7 +38,7 @@ func (e Expector) ToBe(expected interface{}) {
 
 // ToEqual checks strict equality, i.e. (cmp.Diff(x, y) == "")
 func (e Expector) ToEqual(expected interface{}) {
-	diff := cmp.Diff(expected, e.subject, cmpopts.IgnoreUnexported())
+	diff := cmp.Diff(expected, e.subject, cmpopts.IgnoreUnexported(expected))
 
 	if diff != "" {
 		e.t.Fatalf(diff)
@@ -54,7 +54,7 @@ func (e Expector) NotToBe(expected interface{}) {
 
 // NotToEqual checks strict inequality, i.e. (!cmp.Equal(x, y))
 func (e Expector) NotToEqual(expected interface{}) {
-	if cmp.Equal(e.subject, expected, cmpopts.IgnoreUnexported()) {
+	if cmp.Equal(e.subject, expected, cmpopts.IgnoreUnexported(expected)) {
 		e.t.Fatalf("%s equals %s", format(e.subject), format(expected))
 	}
 }
